@@ -163,8 +163,8 @@ while True:
     # Append the data in the worksheet, including a timestamp
     try:
         wh.update_cell(row, col, time.strftime("%H:%M:%S"))
-        wh.update_cell(row, col+1, temp)
-        wh.update_cell(row, col+2, humidity)
+        wh.update_cell(row, col+1, round(temp,1))
+        wh.update_cell(row, col+2, round(humidity,1))
             
     except Exception as ex:
         # Error appending data, most likely because credentials are stale.
