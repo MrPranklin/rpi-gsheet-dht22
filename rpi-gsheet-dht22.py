@@ -1,5 +1,6 @@
 # Modified by Filip Pranklin, 2018.
-# it's more or less not vulnerable to app shutting down (in terms of data loss) or deleting the worksheet being used (in terms of crashing)
+# it's more or less not vulnerable to app shutting down (in terms of data loss) 
+# or deleting the worksheet being used (in terms of crashing)
 
 # the added modification puts each days data in a separate workspace named dd/mm/yy in 3 columns
 
@@ -84,7 +85,8 @@ GDOCS_SPREADSHEET_NAME = 'your google docs spreadsheet name'
 # How long to wait (in seconds) between measurements.
 FREQUENCY_SECONDS    = 60
 MINIMUM_SENSOR_SLEEP = 2        # sensosrs minimum delay between readings
-NUMBER_OF_ROWS       = 1450     # one day is supposed to have 1440 entries with 60 second update frequency, a few extra rows just to be sure
+NUMBER_OF_ROWS       = 1450     # one day is supposed to have 1440 entries with 60 second update frequency, 
+                                # a few extra rows just to be sure
 NUMBER_OF_COLS       = 3        # Time / Temperature / Humidity
 
 # Global variables later used for positioning inside of a worksheet
