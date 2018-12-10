@@ -55,7 +55,7 @@ DHT_TYPE = Adafruit_DHT.DHT22
 # Example of sensor connected to Raspberry Pi pin 4
 DHT_PIN  = 4
 # Example of sensor connected to Beaglebone Black pin P8_11
-#DHT_PIN  = 'P8_11'
+# DHT_PIN  = 'P8_11'
 
 # Google Docs OAuth credential JSON file.  Note that the process for authenticating
 # with Google docs has changed as of ~April 2015.  You _must_ use OAuth2 to log
@@ -79,15 +79,15 @@ DHT_PIN  = 4
 GDOCS_OAUTH_JSON       = 'your SpreadsheetData-*.json file name'
 
 # Google Docs spreadsheet name.
-GDOCS_SPREADSHEET_NAME = 'tour google docs spreadsheet name'
+GDOCS_SPREADSHEET_NAME = 'your google docs spreadsheet name'
 
 # How long to wait (in seconds) between measurements.
 FREQUENCY_SECONDS    = 60
-MINIMUM_SENSOR_SLEEP = 2
-NUMBER_OF_ROWS       = 1450     #one day is supposed to have 1440 entries with 60 second update frequency, a few extra rows just to be sure
-NUMBER_OF_COLS       = 3        #Time / Temperature / Humidity
+MINIMUM_SENSOR_SLEEP = 2        # sensosrs minimum delay between readings
+NUMBER_OF_ROWS       = 1450     # one day is supposed to have 1440 entries with 60 second update frequency, a few extra rows just to be sure
+NUMBER_OF_COLS       = 3        # Time / Temperature / Humidity
 
-#Global variables for positioning inside of a worksheet
+# Global variables later used for positioning inside of a worksheet
 row = 1
 col = 1
 
@@ -99,26 +99,26 @@ def get_spreadsheet(oauth_key_file, spreadsheet_name):
         sh = gc.open(spreadsheet_name)
         return sh
     except Exception as ex:
-        print('Unable to login and get spreadsheet.  Check OAuth credentials, spreadsheet name, and make sure spreadsheet is shared to the client_email address in the OAuth .json file!')
-        print('Google sheet login failed with error:', ex)
+        print ('Unable to login and get spreadsheet.  Check OAuth credentials, spreadsheet name, and make sure spreadsheet is shared to the client_email address in the OAuth .json file!')
+        print ('Google sheet login failed with error:', ex)
         sys.exit(1)
 
 def get_next_worksheet(spreadsheet, ttl, rws, cls):
     wh = None
     global row
     
-    #Open the worksheet with desired title if it exists
+    # Open the worksheet with desired title if it exists
     try:
         wh = sh.worksheet(ttl)
         print ("Opened worksheet " + ttl)
-        #Find the row with the last enrty
+        # Find the row with the last enrty
         col_list = wh.col_values(2)
         row = 1
         for a in col_list:
             row = row + 1
             
     except gspread.exceptions.WorksheetNotFound as exc:
-        #Create new worksheet with desired title otherwise
+        # Create new worksheet with desired title otherwise
         print ("A worksheet with this name doesn't exist, creating one")
         wh = sh.add_worksheet(title = ttl, rows = rws, cols = cls)
         wh.update_cell(1, 1, "Time")
@@ -127,12 +127,12 @@ def get_next_worksheet(spreadsheet, ttl, rws, cls):
         row = 2
         
     except Exception as exc:
-        print('Failed while choosing/creating workspace:', exc)
+        print ('Failed while choosing/creating workspace:', exc)
         
     return wh
 
-print('Logging sensor measurements to {0} every {1} seconds.'.format(GDOCS_SPREADSHEET_NAME, FREQUENCY_SECONDS))
-print('Press Ctrl-C to quit.')
+print ('Logging sensor measurements to {0} every {1} seconds.'.format(GDOCS_SPREADSHEET_NAME, FREQUENCY_SECONDS))
+print ('Press Ctrl-C to quit.')
 
 sh = None
 while True:
@@ -143,7 +143,7 @@ while True:
     if sh is None:
         sh = get_spreadsheet(GDOCS_OAUTH_JSON, GDOCS_SPREADSHEET_NAME)
        
-    #Get worksheet with title equal to todays date and good row value
+    # Get worksheet with title equal to todays date and good row value
     wh = get_next_worksheet(sh, time.strftime("%d/%m/%Y"), NUMBER_OF_ROWS, NUMBER_OF_COLS)
 
     # Attempt to get sensor reading.
